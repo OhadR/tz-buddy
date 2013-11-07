@@ -1,0 +1,91 @@
+<html>
+<head>
+</head>
+<body>
+
+<form name="myform" action="" method="post" onsubmit="if (this.checker.checked) toMem(this)">
+FirstName: <input type = "text"  name="usernameF" id="usernameF" size="30" ><br>
+Last Name: <input type = "text"  name="usernameL" id="usernameL" size="30" ><br>
+E-mail: <input type = "text" name="email" id="email"  size="30">
+<br><br>
+Remember me? <input type="checkbox" id="checker" name="checker"> &nbsp&nbsp
+<input type="submit" value="Submit"> 
+<input type="reset" value="Reset"> 
+<input type="button" onclick="delMem(this)" value="Delete Information">
+</form>
+
+<script type = "text/javascript">
+
+function newCookie(name,value,days) {
+var days = 10;// the number at the left reflects the number of days for the cookie to last
+     // modify it according to your needs
+if (days) {
+var date = new Date();
+date.setTime(date.getTime()+(days*24*60*60*1000));
+var expires = "; expires="+date.toGMTString(); 
+}
+else {var expires = ""}
+document.cookie = name+"="+value+expires+"; path=/"; 
+}
+
+function readCookie(name) {
+var nameSG = name + "=";
+var nuller = '';
+if (document.cookie.indexOf(nameSG) == -1) {return nuller}
+var ca = document.cookie.split(';');
+for(var i=0; i<ca.length; i++) {
+var c = ca[i];
+while (c.charAt(0)==' ') c = c.substring(1,c.length);
+if (c.indexOf(nameSG) == 0) return c.substring(nameSG.length,c.length);
+}
+return null;
+}
+
+function eraseCookie(name) {
+newCookie(name,"",1); 
+}
+
+function toMem(a) {
+newCookie('theFirstName', document.myform.usernameF.value);  // add a new cookie as shown at left for every
+newCookie ('theLastName', document.myform.usernameL.value);  // field you wish to have the script remember
+newCookie('theEmail', document.myform.email.value);   
+}
+
+function delMem(a) {
+eraseCookie('theFirstName');  // make sure to add the eraseCookie function for every field
+eraseCookie('theLastName');  
+eraseCookie('theEmail');
+document.myform.usernameF.value = '';  // add a line like this for every field
+document.myform.usernameL.value = '';
+document.myform.email.value = '';
+}
+
+function remCookie() {
+document.myform.usernameF.value = readCookie("theFirstName");
+document.myform.usernameL.value = readCookie("theLastName");
+document.myform.email.value = readCookie("theEmail");
+}
+
+function addLoadEvent(func) {
+var oldonload = window.onload;
+if (typeof window.onload != 'function') {
+window.onload = func;
+} 
+else {
+window.onload = function() {
+if (oldonload) {
+oldonload();
+}
+func();
+}
+}
+}
+
+addLoadEvent(function() {
+remCookie();
+});
+
+</script>
+
+</body>
+</html>
