@@ -1,0 +1,104 @@
+body 
+{
+	font-size: 80%;
+    font-family: Arial;
+}
+
+#explanation 
+{
+	display: table-cell;		/*to allow vertical-align*/	
+	width: 250px;
+	font-size: 90%;
+	border:1px solid #0038D4;
+	color: #0038D4;
+	text-align: center;
+    vertical-align: middle; 
+
+	border-radius: 6px;
+}
+
+#logo 
+{
+	font-weight: bold;
+}
+
+.location_class {
+	display: inline-block;
+	overflow: hidden;
+
+    font-family: Arial;
+	font-size: 15px;
+	font-weight: bold;
+	width: 200px;
+	margin-bottom: 0;
+
+	color: #292929;
+
+	height: 25px;
+    margin-right: 6px;
+    padding-right: 18px;
+    padding-left: 10px;
+    text-decoration: none;
+}
+
+
+.time_class			
+{
+	display: inline-block;
+	overflow: hidden;
+
+    font-family: Arial;
+	font-size: 15px;
+	font-weight: bold;
+	width: 50px;
+	margin-bottom: 0;
+
+	color: #292929;
+
+	height: inherit;
+    margin-right: 6px;
+    padding-right: 18px;
+    padding-left: 10px;
+    text-decoration: none;
+	
+}
+
+
+.delete_button {
+	cursor: pointer; 
+//	background: transparent url("http://tzbuddy.appspot.com/delete.png") no-repeat center center;
+//  width: 30px;
+//	height: 30px;
+}
+
+#locations .inline-edit-input,
+{
+	font-size: 15px;
+	font-weight: bold;
+	width: 100%;
+	margin-bottom: 0;
+}
+
+
+.bar_class
+{
+	display: inline-block;
+	height:40px;
+}
+
+.bar_item_class 
+{
+	font-size: 90%;
+	
+	display: table-cell;		/*to allow vertical-align*/	
+	height:inherit;
+
+	width : 28px;
+	border:1px solid #000;
+    text-align: center;
+    vertical-align: middle; 
+
+	font-weight: bold;
+	
+	border-radius: 6px;
+}
