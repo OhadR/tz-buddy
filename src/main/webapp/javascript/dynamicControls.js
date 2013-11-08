@@ -89,6 +89,9 @@ function createInnerItems( index, parentElement )
 	  
 }
 
+/**
+ * this is the handler that is called upon deleting an 'time zone' item (clicking on the X):
+ */
 function removeElement() 
 {
 	//jQuery event.target always refers to the element that triggered the event
@@ -104,6 +107,10 @@ function removeElement()
 	parentElement.removeChild( btnElement );
 
 	mainDiv.removeChild( parentElement );
+	
+	//delete this item from the cookie:
+	//TBD: for now, delete ALL the cookie
+	eraseCookie('tz_buddy');
 }
 
 

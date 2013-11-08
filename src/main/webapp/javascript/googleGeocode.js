@@ -1,6 +1,7 @@
 var google_tz_url  = 'https://maps.googleapis.com/maps/api/timezone/json';
 var geocoder;
 var dotsStr = ':';
+var COOKIE_NAME = 'tz-buddy';
 
 var locationsArray = [];
 
@@ -15,6 +16,14 @@ function initialize()
 	geocoder = new google.maps.Geocoder();
 
 	setInterval(updateClocks, 1200);
+	
+	//upon loading the page, try to read the cookie, if there are saved locations:
+	var cookieSavedLocations = readTimezonesCookie();
+	for(var i=0; i<cookieSavedLocations.length; i++)
+	{
+		var tmp = cookieSavedLocations[i];
+	}
+	
 }
 
 
@@ -35,7 +44,7 @@ function OnAddLocation()
 function codeAddress(address) 
 {
 	//save the address to the cookie:
-	newCookie("tz_buddy", address, 90);
+	addToTimezonesCookie(address);
 	
 //	var address = document.getElementById("address").value;
 	geocoder.geocode( { 'address': address}, codeAddressCallback);
@@ -267,6 +276,45 @@ function onBarItemMouseOut()
 
 
 
+function addToTimezonesCookie(value)
+{
+	addToCookie(COOKIE_NAME, value);
+}
+
+/**
+ * 
+ * @returns string array with all saved locations
+ */
+function readTimezonesCookie()
+{
+	var cookieValue = readCookie( COOKIE_NAME );
+	return cookieValue.split('+');
+}
+
+function addToCookie(name, value)
+{
+	var cookieValue = readCookie(name);
+	if(cookieValue == null)
+	{
+		//cookie does not exist - create a new one:
+		cookieValue = value;
+	}
+	else
+	{
+		//cookie exists - add new value to existing one.
+		cookieValue = cookieValue + '+' + value;		
+	}
+	
+	newCookie(name, cookieValue, 30);		
+}
+
+/**
+ * low-level Cookie-saver
+ * 
+ * @param name
+ * @param value
+ * @param days
+ */
 function newCookie(name, value, days)
 {
 	var expires;
@@ -288,16 +336,19 @@ function newCookie(name, value, days)
 function readCookie(name) 
 {
 	var nameSG = name + "=";
-	var nuller = '';
-	if (document.cookie.indexOf(nameSG) == -1) {return nuller}
+
 	var ca = document.cookie.split(';');
-	for(var i=0; i<ca.length; i++) {
-	var c = ca[i];
-	while (c.charAt(0)==' ') c = c.substring(1,c.length);
-	if (c.indexOf(nameSG) == 0) return c.substring(nameSG.length,c.length);
+	for(var i=0; i<ca.length; i++) 
+	{
+		var c = ca[i];
+		while (c.charAt(0)==' ') 
+			c = c.substring(1,c.length);
+		if (c.indexOf(nameSG) == 0) 
+			return c.substring(nameSG.length,c.length);
 	}
 	return null;
 }
+
 
 function eraseCookie(name) 
 {
