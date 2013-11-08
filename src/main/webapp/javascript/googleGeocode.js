@@ -21,7 +21,8 @@ function initialize()
 	var cookieSavedLocations = readTimezonesCookie();
 	for(var i=0; i<cookieSavedLocations.length; i++)
 	{
-		var tmp = cookieSavedLocations[i];
+		var location = cookieSavedLocations[i];
+		codeAddress( location );
 	}
 	
 }
@@ -36,6 +37,10 @@ function OnAddLocation()
 		return;
 	}
 
+	//save the address to the cookie:
+	addToTimezonesCookie( location );
+	
+
 	//there is a callback function defined there, that keeps the handling:
 	codeAddress( location );
 }
@@ -43,9 +48,6 @@ function OnAddLocation()
 
 function codeAddress(address) 
 {
-	//save the address to the cookie:
-	addToTimezonesCookie(address);
-	
 //	var address = document.getElementById("address").value;
 	geocoder.geocode( { 'address': address}, codeAddressCallback);
 }
