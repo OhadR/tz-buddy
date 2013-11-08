@@ -1,0 +1,47 @@
+version 1 :
+kick off. 
+use Google API for the engine. 
+https://developers.google.com/maps/documentation/timezone/
+https://developers.google.com/maps/documentation/geocoding/
+a simple HTML in the front end.
+
+
+
+version 2:
+use Google Autocomplete for the UI.
+https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete
+the UI is a form that the 'submit' calls to 
+http://tzbuddy.appspot.com/tz?location=<telaviv>
+
+
+
+version 3: 
+UI enhancements. use jQuery and ajax.
+do not need Java anymore - use Google's JS API and ajax for HTTP.
+consider not only TZ offset, but DST (daylight saving time) as well.
+start working on UI: inner divs are created dynamically.
+add "Facebook Like" header
+
+version 4:
+logs - backend servlet that prints log.
+add delete button. attached png to it.
+support deletion of locations.
+
+version 5:
+* get rid of "add" button - add automatically. the auto-complete invokes the "OnAddLocation()"
+* add the bar !!!
+	** colorpicker: http://www.colorpicker.com/
+
+
+
+TASKS:
+* android issues
+* make delete button nicer
+* after adding a location, clear the input box. use the return value from the auto-complete,
+	which contains also the geo, instead of reading the input string, and use Google API to
+	get the input's geo. the change: OnAddLocation() will get the location as a param, 
+	instead of calling the 
+		var location = document.getElementById('location').value
+	and then 
+		codeAddress( location );	//this call is not needed, we get the geo from the auto-complete!
+	 
