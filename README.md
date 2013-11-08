@@ -1,6 +1,6 @@
 tz-buddy
 ========
 
-time zone buddy, nice SaaS that helps you with the timezone mess
+Welcome to "time zone buddy", a nice SaaS that helps you with the timezones mess.
 
-this is the first change to this repo!
+This SaaS is deployed on www.tzbuddy.appspot.com. Try it now!
