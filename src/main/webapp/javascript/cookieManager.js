@@ -27,7 +27,7 @@ function CookieManager()
     this.readTimezonesCookie = function()
 	{
 		var cookieValue = self.readCookie( COOKIE_NAME );
-		return cookieValue.split('+');
+		return (cookieValue==null) ? null : cookieValue.split('+');
 	};
 
 /**
@@ -61,19 +61,23 @@ function CookieManager()
 
 	this._removeFromCookie = function(name, value)
 	{
-		var cookieSavedLocations = self.readTimezonesCookie();
-		
-		var newCookieValue = '';
-		
-		for(var i=0; i<cookieSavedLocations.length; i++)
+		var cookieValue = self.readCookie( name );
+		var index = cookieValue.indexOf(value);
+		if(index != -1)
 		{
-			var location = cookieSavedLocations[i];
-			if(location != value)
-			{
-				newCookieValue += location;
-			}
+			//search for the LAST '+' that comes before the location. why? -in case of 'tehran, iran', the 
+			//cookie stores 'tehran, tehran, iran'. so basically we need to find the delimiters '+' before
+			//and after the location in the cookie, and then delete.
+			var firstPart = cookieValue.substring(0, index);
+			var firstPartCutIndex = firstPart.lastIndexOf('+');
+
+			//delete it:
+			cookieValue = 
+				firstPart.substring(0, firstPartCutIndex) + 
+				cookieValue.substring(index + value.length + 1);	//+1 to delete the following '+'
 		}
-		self.newCookie(name, newCookieValue, 30);		
+
+		self.newCookie(name, cookieValue, 30);		
 	};
 
 	/**

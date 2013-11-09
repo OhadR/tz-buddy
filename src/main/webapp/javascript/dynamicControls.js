@@ -103,13 +103,27 @@ function removeElement()
 	var imgElement = document.getElementById( id );
 	var btnElement = imgElement.parentElement;
 	var parentElement = btnElement.parentElement;
+	
+	//beofre deletion, get the 'location' element (so we can remove it from the cookie)
+	var childNodes = parentElement.childNodes;
+	var locationToDelete;
+	for(var i=0; i<childNodes.length; ++i)
+	{
+		var node = childNodes[i];
+		if(node.className == LOCATION_CLS_NAME)
+		{
+			locationToDelete = node.innerText;
+			break;
+		}
+	}
+	
 	//delete the button:
 	parentElement.removeChild( btnElement );
 
 	mainDiv.removeChild( parentElement );
 	
 	//delete this item from the cookie:
-	g_cookieManager.removeLocationFromCookie(location);
+	g_cookieManager.removeLocationFromCookie( locationToDelete );
 }
 
 

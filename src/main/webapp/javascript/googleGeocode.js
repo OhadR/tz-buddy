@@ -22,6 +22,9 @@ function initialize()
 	
 	//upon loading the page, try to read the cookie, if there are saved locations:
 	var cookieSavedLocations = g_cookieManager.readTimezonesCookie();
+	if(cookieSavedLocations == null)
+		return;
+
 	for(var i=0; i<cookieSavedLocations.length; i++)
 	{
 		var location = cookieSavedLocations[i];
