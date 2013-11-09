@@ -109,8 +109,7 @@ function removeElement()
 	mainDiv.removeChild( parentElement );
 	
 	//delete this item from the cookie:
-	//TBD: for now, delete ALL the cookie
-	eraseCookie('tz_buddy');
+	g_cookieManager.removeLocationFromCookie(location);
 }
 
 

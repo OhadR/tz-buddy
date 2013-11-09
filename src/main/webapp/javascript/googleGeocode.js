@@ -1,7 +1,6 @@
 var google_tz_url  = 'https://maps.googleapis.com/maps/api/timezone/json';
 var geocoder;
 var dotsStr = ':';
-var COOKIE_NAME = 'tz-buddy';
 
 var NIGHT_COLOR = '#888888';
 var TWILIGHT_COLOR = '#CCCCCC';
@@ -22,7 +21,7 @@ function initialize()
 	setInterval(updateClocks, 1200);
 	
 	//upon loading the page, try to read the cookie, if there are saved locations:
-	var cookieSavedLocations = readTimezonesCookie();
+	var cookieSavedLocations = g_cookieManager.readTimezonesCookie();
 	for(var i=0; i<cookieSavedLocations.length; i++)
 	{
 		var location = cookieSavedLocations[i];
@@ -42,7 +41,7 @@ function OnAddLocation()
 	}
 
 	//save the address to the cookie:
-	addToTimezonesCookie( location );
+	g_cookieManager.addToTimezonesCookie( location );
 	
 
 	//there is a callback function defined there, that keeps the handling:
@@ -276,110 +275,3 @@ function onBarItemMouseOut()
 //	this.style.fontWeight = 'none';
 }
 
-
-
-
-
-
-function addToTimezonesCookie(value)
-{
-	addToCookie(COOKIE_NAME, value);
-}
-
-/**
- * called upon page load or refresh
- * 
- * @returns string array with all saved locations
- */
-function readTimezonesCookie()
-{
-	var cookieValue = readCookie( COOKIE_NAME );
-	return cookieValue.split('+');
-}
-
-/**
- * when user deletes a location, we need to remove it from the cookie
- * and leave the other locations.
- * @returns
- */
-function removeLocationFromCookie(value)
-{
-	removeFromCookie(COOKIE_NAME, value);
-}
-
-
-function addToCookie(name, value)
-{
-	var cookieValue = readCookie(name);
-	if(cookieValue == null)
-	{
-		//cookie does not exist - create a new one:
-		cookieValue = value;
-	}
-	else
-	{
-		//cookie exists - add new value to existing one.
-		cookieValue = cookieValue + '+' + value;		
-	}
-	
-	newCookie(name, cookieValue, 30);		
-}
-
-
-function removeFromCookie(name, value)
-{
-	var cookieSavedLocations = readTimezonesCookie();
-	
-	var newCookieValue = '';
-	
-	for(var i=0; i<cookieSavedLocations.length; i++)
-	{
-		var location = cookieSavedLocations[i];
-		if(location != value)
-		{
-			newCookieValue += location;
-		}
-	}
-	newCookie(name, newCookieValue, 30);		
-}
-
-/**
- * low-level Cookie-saver
- * 
- * @param name
- * @param value
- * @param days
- */
-function newCookie(name, value, days)
-{
-	var expires;
-	var days = 10;// the number at the left reflects the number of days for the cookie to last
-	     // modify it according to your needs
-	if (days) 
-	{
-		var date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-		expires = "; expires=" + date.toGMTString(); 
-	}
-	else 
-	{
-		expires = "";
-	}
-	document.cookie = name + "=" + value + expires + "; path=/"; 
-}
-
-function readCookie(name) 
-{
-	var nameSG = name + "=";
-
-	var ca = document.cookie.split(';');
-	for(var i=0; i<ca.length; i++) 
-	{
-		var c = ca[i];
-		while (c.charAt(0)==' ') 
-			c = c.substring(1,c.length);
-		if (c.indexOf(nameSG) == 0) 
-			return c.substring(nameSG.length,c.length);
-	}
-	return null;
-}
