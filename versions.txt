@@ -31,6 +31,13 @@ version 5:
 * get rid of "add" button - add automatically. the auto-complete invokes the "OnAddLocation()"
 * add the bar !!!
 	** colorpicker: http://www.colorpicker.com/
+	
+version 6:
+* handle a cookie that stores locations of the current session. upon refresh, this cookie is 
+	read and shows the locations.
+	** when user adds location - add it to the cookie
+	** when user deletes a location - delete only it from the cookie
+
 
 
 

@@ -3,6 +3,10 @@ var geocoder;
 var dotsStr = ':';
 var COOKIE_NAME = 'tz-buddy';
 
+var NIGHT_COLOR = '#888888';
+var TWILIGHT_COLOR = '#CCCCCC';
+var DAY_COLOR = '#EEEEEE';
+
 var locationsArray = [];
 
 
@@ -239,18 +243,17 @@ function updateClocks()
 
 				if(value >= 22 || value <= 5)	//middle of the night:
 				{
-					barElement.style.backgroundColor = '#0038D4';
+					barElement.style.backgroundColor = NIGHT_COLOR;
 					barElement.style.color = 'white';
 				}
 				else if (value >= 8 && value <= 17)		//day time
 				{
 					
-					barElement.style.backgroundColor = '#FFFFC8';
-//					barElement.style.backgroundColor = '#FCFCA2';
+					barElement.style.backgroundColor = DAY_COLOR
 				}
 				else
 				{
-					barElement.style.backgroundColor = '#C5C9FA';
+					barElement.style.backgroundColor = TWILIGHT_COLOR;
 				}
 			
 				barElement.innerText = value;
@@ -284,6 +287,7 @@ function addToTimezonesCookie(value)
 }
 
 /**
+ * called upon page load or refresh
  * 
  * @returns string array with all saved locations
  */
@@ -292,6 +296,17 @@ function readTimezonesCookie()
 	var cookieValue = readCookie( COOKIE_NAME );
 	return cookieValue.split('+');
 }
+
+/**
+ * when user deletes a location, we need to remove it from the cookie
+ * and leave the other locations.
+ * @returns
+ */
+function removeLocationFromCookie(value)
+{
+	removeFromCookie(COOKIE_NAME, value);
+}
+
 
 function addToCookie(name, value)
 {
@@ -308,6 +323,24 @@ function addToCookie(name, value)
 	}
 	
 	newCookie(name, cookieValue, 30);		
+}
+
+
+function removeFromCookie(name, value)
+{
+	var cookieSavedLocations = readTimezonesCookie();
+	
+	var newCookieValue = '';
+	
+	for(var i=0; i<cookieSavedLocations.length; i++)
+	{
+		var location = cookieSavedLocations[i];
+		if(location != value)
+		{
+			newCookieValue += location;
+		}
+	}
+	newCookie(name, newCookieValue, 30);		
 }
 
 /**
@@ -349,10 +382,4 @@ function readCookie(name)
 			return c.substring(nameSG.length,c.length);
 	}
 	return null;
-}
-
-
-function eraseCookie(name) 
-{
-	newCookie(name,"",1); 
 }
