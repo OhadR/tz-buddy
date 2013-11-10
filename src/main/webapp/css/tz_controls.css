@@ -6,7 +6,9 @@ body
 
 #explanation 
 {
-	display: table-cell;		/*to allow vertical-align*/	
+/*	display: table-cell;		/*to allow vertical-align*/
+/*	display: inline-block;		/*to allow vertical-align*/
+		
 	width: 250px;
 	font-size: 90%;
 	border:1px solid #0038D4;
@@ -16,6 +18,11 @@ body
 
 	border-radius: 6px;
 }
+
+#git
+{
+	display: inline-block;
+} 
 
 #logo 
 {
